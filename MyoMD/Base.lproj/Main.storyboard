@@ -209,7 +209,7 @@
                                         <barButtonItem key="leftBarButtonItem" image="back-arrow.png" id="aeG-yi-5hz">
                                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
-                                                <action selector="dismissView:" destination="Aq2Suw" id="rZE-qh-Pyj"/>
+                                                <action selector="dismissView:" destination="Aq2Suw" id="zY1-Lc-Tr1"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="help-button.png" id="IEb-sJ-atU">
@@ -336,7 +336,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AOr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2477.5999999999999" y="-32.833583208395808"/>
+            <point key="canvasLocation" x="2481" y="-34"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="AF2H">

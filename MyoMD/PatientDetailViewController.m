@@ -60,7 +60,8 @@
 }
 
 -(IBAction)dismissView:(id)sender {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    NSLog(@"Hitting here");
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -239,6 +239,13 @@
     return YES;
 }
 
+-(IBAction)dismissView:(id)sender {
+    NSLog(@"Hitting here");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
