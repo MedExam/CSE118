@@ -74,6 +74,11 @@
 		9368BB371DC19A1D0081C995 /* Montserrat-Hairline.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9368BB321DC19A1D0081C995 /* Montserrat-Hairline.otf */; };
 		9368BB381DC19A1D0081C995 /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9368BB331DC19A1D0081C995 /* Montserrat-Light.otf */; };
 		9368BB391DC19A1D0081C995 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9368BB341DC19A1D0081C995 /* Montserrat-Regular.otf */; };
+		938250DE1DD5894500A03C26 /* PatientDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938250DD1DD5894500A03C26 /* PatientDetailViewController.m */; };
+		938250E01DD5AF8900A03C26 /* back-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 938250DF1DD5AF8900A03C26 /* back-arrow.png */; };
+		93DA5B131DC6E855001D3F67 /* MyoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA5B121DC6E855001D3F67 /* MyoKit.framework */; };
+		93DA5B151DC6E9F7001D3F67 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA5B141DC6E9F7001D3F67 /* CoreBluetooth.framework */; };
+		93EFBD1E1DD93F5F002C17B4 /* sync-myo.png in Resources */ = {isa = PBXBuildFile; fileRef = 93EFBD1D1DD93F5E002C17B4 /* sync-myo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -163,6 +168,12 @@
 		9368BB321DC19A1D0081C995 /* Montserrat-Hairline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Hairline.otf"; sourceTree = "<group>"; };
 		9368BB331DC19A1D0081C995 /* Montserrat-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.otf"; sourceTree = "<group>"; };
 		9368BB341DC19A1D0081C995 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		938250DC1DD5894500A03C26 /* PatientDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientDetailViewController.h; sourceTree = "<group>"; };
+		938250DD1DD5894500A03C26 /* PatientDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientDetailViewController.m; sourceTree = "<group>"; };
+		938250DF1DD5AF8900A03C26 /* back-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-arrow.png"; sourceTree = "<group>"; };
+		93DA5B121DC6E855001D3F67 /* MyoKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MyoKit.framework; sourceTree = "<group>"; };
+		93DA5B141DC6E9F7001D3F67 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		93EFBD1D1DD93F5E002C17B4 /* sync-myo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sync-myo.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,15 +181,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				934E04EB1DC1B0340002D784 /* SystemConfiguration.framework in Frameworks */,
+				93DA5B151DC6E9F7001D3F67 /* CoreBluetooth.framework in Frameworks */,
 				934E04F11DC1B0480002D784 /* Foundation.framework in Frameworks */,
 				934E04EF1DC1B0420002D784 /* UIKit.framework in Frameworks */,
 				934E04ED1DC1B0390002D784 /* CFNetwork.framework in Frameworks */,
-				934E04EB1DC1B0340002D784 /* SystemConfiguration.framework in Frameworks */,
 				934E04E91DC1B02E0002D784 /* AudioToolbox.framework in Frameworks */,
 				934E04E71DC1B0290002D784 /* Security.framework in Frameworks */,
 				934E04E51DC1B0220002D784 /* libz.1.1.3.tbd in Frameworks */,
 				934E04E31DC1B01B0002D784 /* QuartzCore.framework in Frameworks */,
 				934E04E11DC1B0170002D784 /* libsqlite3.tbd in Frameworks */,
+				93DA5B131DC6E855001D3F67 /* MyoKit.framework in Frameworks */,
 				934E04DF1DC1B00F0002D784 /* CoreGraphics.framework in Frameworks */,
 				934E04DD1DC1B00A0002D784 /* StoreKit.framework in Frameworks */,
 				934E04DB1DC1B0030002D784 /* CoreLocation.framework in Frameworks */,
@@ -194,6 +207,8 @@
 		934E04F21DC1B0530002D784 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93DA5B141DC6E9F7001D3F67 /* CoreBluetooth.framework */,
+				93DA5B121DC6E855001D3F67 /* MyoKit.framework */,
 				934E04F01DC1B0480002D784 /* Foundation.framework */,
 				934E04EE1DC1B0420002D784 /* UIKit.framework */,
 				934E04EC1DC1B0390002D784 /* CFNetwork.framework */,
@@ -266,6 +281,8 @@
 				9368BB241DC08A7F0081C995 /* PatientTableViewCell.h */,
 				9368BB251DC08A7F0081C995 /* PatientTableViewCell.m */,
 				9368BAE31DBFC7F60081C995 /* Main.storyboard */,
+				938250DC1DD5894500A03C26 /* PatientDetailViewController.h */,
+				938250DD1DD5894500A03C26 /* PatientDetailViewController.m */,
 				9368BAE61DBFC7F60081C995 /* Assets.xcassets */,
 				9368BAE81DBFC7F60081C995 /* LaunchScreen.storyboard */,
 				9368BAEB1DBFC7F60081C995 /* Info.plist */,
@@ -315,6 +332,7 @@
 		9368BB031DBFCB020081C995 /* Gum Detail */ = {
 			isa = PBXGroup;
 			children = (
+				93EFBD1D1DD93F5E002C17B4 /* sync-myo.png */,
 				9368BB041DBFCB120081C995 /* arrow-button.png */,
 				9368BB051DBFCB120081C995 /* arrow-button@2x.png */,
 				9368BB061DBFCB120081C995 /* help-button.png */,
@@ -332,6 +350,7 @@
 		9368BB1E1DC088EB0081C995 /* Table View */ = {
 			isa = PBXGroup;
 			children = (
+				938250DF1DD5AF8900A03C26 /* back-arrow.png */,
 				9368BB1F1DC088F40081C995 /* patient-place-holder.png */,
 			);
 			name = "Table View";
@@ -390,6 +409,7 @@
 				TargetAttributes = {
 					9368BAD61DBFC7F60081C995 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = W735WRNN72;
 					};
 				};
 			};
@@ -432,6 +452,7 @@
 				9368BB131DBFCB120081C995 /* main-background-image@2x.png in Resources */,
 				9368BB391DC19A1D0081C995 /* Montserrat-Regular.otf in Resources */,
 				9368BB201DC088F40081C995 /* patient-place-holder.png in Resources */,
+				93EFBD1E1DD93F5F002C17B4 /* sync-myo.png in Resources */,
 				934E05291DC1E0800002D784 /* Icon-60@3x.png in Resources */,
 				9368BB151DBFCB120081C995 /* menu-button@2x.png in Resources */,
 				9368BB021DBFC9E20081C995 /* MyoMD-image@2x.png in Resources */,
@@ -447,6 +468,7 @@
 				9368BAE51DBFC7F60081C995 /* Main.storyboard in Resources */,
 				934E05301DC1E0800002D784 /* Icon-Small@2x.png in Resources */,
 				934E052A1DC1E0800002D784 /* Icon-60@2x.png in Resources */,
+				938250E01DD5AF8900A03C26 /* back-arrow.png in Resources */,
 				9368BB0F1DBFCB120081C995 /* arrow-button@2x.png in Resources */,
 				9368BB381DC19A1D0081C995 /* Montserrat-Light.otf in Resources */,
 				934E052F1DC1E0800002D784 /* Icon-Small@3x.png in Resources */,
@@ -471,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9368BADF1DBFC7F60081C995 /* AppDelegate.m in Sources */,
+				938250DE1DD5894500A03C26 /* PatientDetailViewController.m in Sources */,
 				9368BB1A1DBFCD6C0081C995 /* TeethDetailViewController.m in Sources */,
 				9368BB261DC08A7F0081C995 /* PatientTableViewCell.m in Sources */,
 				9368BB291DC197940081C995 /* LoginViewController.m in Sources */,
@@ -587,12 +610,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = W735WRNN72;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MyoMD",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MyoMD/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -607,12 +633,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = W735WRNN72;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MyoMD",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MyoMD/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -61,6 +61,10 @@
     }
 }
 
+-(IBAction)dismissView:(id)sender {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -101,6 +105,11 @@
 
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%ld", (long)indexPath.row);
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

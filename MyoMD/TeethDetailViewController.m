@@ -7,7 +7,7 @@
 //
 
 #import "TeethDetailViewController.h"
-
+#import <MyoKit/MyoKit.h>
 @interface TeethDetailViewController ()
 
 @end
@@ -32,6 +32,17 @@
     self.navigationItem.titleView = label;
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background-social-image.png"]];
+    
+
+    
+    
+    [[TLMHub sharedHub] setLockingPolicy:TLMLockingPolicyNone];
+    
+    //Subscribing to notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceivePoseChange:)
+                                                 name:TLMMyoDidReceivePoseChangedNotification
+                                               object:nil];
     
     tooth1.delegate = self;
     tooth2.delegate = self;
@@ -74,6 +85,10 @@
     tooth32.delegate = self;
 }
 
+-(IBAction)syncMyo:(id)sender {
+    UINavigationController *settings = [TLMSettingsViewController settingsInNavigationController];
+    [self presentViewController:settings animated:YES completion:nil];
+}
 
 -(void)viewWillLayoutSubviews{
     
@@ -232,6 +247,55 @@
     return UIBarPositionTopAttached;
 }
 
+- (void)holdUnlockForMyo:(TLMMyo *)myo {
+    [myo unlockWithType:TLMUnlockTypeHold];
+}
+
+- (void)endHoldUnlockForMyo:(TLMMyo *)myo immediately:(BOOL)immediately {
+    if (immediately) {
+        [myo lock];
+    } else {
+        [myo unlockWithType:TLMUnlockTypeTimed];
+    }
+}
+
+- (void)didReceivePoseChange:(NSNotification*)notification {
+    TLMPose *pose = notification.userInfo[kTLMKeyPose];
+    
+    if (pose.type == TLMPoseTypeDoubleTap) {
+        NSLog(@"Double tap, registered.");
+        for (UIView *view in [self.view subviews]) {
+            if ([view isKindOfClass:[UITextField class]]) {
+                
+                UITextField *textField = (UITextField *)view;
+                if ([textField isFirstResponder]) {
+                    int intValue = 1;
+                    
+                    if (textField.text && textField.text.length > 0) {
+                        intValue = [textField.text intValue] + 1;
+                    }
+                    textField.text = [NSString stringWithFormat:@"%d", intValue];
+                }
+            }
+        }
+
+        
+    }
+    
+    if (pose.type == TLMPoseTypeWaveOut) {
+        NSLog(@"Swipe right, registered.");
+        for (UIView *view in [self.view subviews]) {
+            if ([view isKindOfClass:[UITextField class]]) {
+                
+                UITextField *textField = (UITextField *)view;
+                if ([textField isFirstResponder]) {
+                    [self textFieldShouldReturn:textField];
+                    break;
+                }
+            }
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

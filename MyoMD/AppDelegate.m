@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import <MyoKit/MyoKit.h>
 
 @interface AppDelegate ()
 
@@ -32,6 +33,7 @@
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
+    [TLMHub sharedHub];
     return YES;
 }
 
