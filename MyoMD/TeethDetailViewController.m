@@ -304,6 +304,42 @@
     }
 }
 
+-(IBAction)saveGumTest:(id)sender {
+    NSArray *gumTest = [[NSArray alloc] initWithObjects:
+                        tooth1.text,
+                        tooth2.text,
+                        tooth3.text,
+                        tooth4.text,
+                        tooth5.text,
+                        tooth6.text,
+                        tooth7.text,
+                        tooth8.text,
+                        tooth9.text,
+                        tooth10.text,
+                        tooth11.text,
+                        tooth12.text,
+                        tooth13.text,
+                        tooth14.text,
+                        tooth15.text,
+                        tooth16.text,
+                        tooth17.text,
+                        tooth18.text,
+                        tooth19.text,
+                        tooth20.text,
+                        tooth21.text,
+                        tooth22.text,
+                        tooth23.text,
+                        tooth24.text,
+                        tooth25.text,
+                        tooth26.text,
+                        tooth27.text,
+                        tooth28.text,
+                        tooth29.text,
+                        tooth30.text,
+                        tooth31.text,
+                        tooth32.text,
+                        nil];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

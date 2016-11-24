@@ -61,8 +61,7 @@
     }
 }
 
--(IBAction)dismissView:(id)sender {
-    NSLog(@"Hitting here");
+-(IBAction)dismissView:(id)sender {    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
