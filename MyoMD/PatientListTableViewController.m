@@ -6,8 +6,10 @@
 //  Copyright © 2016 Aryaman Sharda. All rights reserved.
 //
 
+#import "PatientDetailViewController.h"
 #import "PatientListTableViewController.h"
 #import "PatientTableViewCell.h"
+#import "Patients.h" 
 
 @interface PatientListTableViewController ()
 
@@ -15,7 +17,8 @@
 
 @implementation PatientListTableViewController
 {
-    NSMutableArray *localData;
+    NSMutableArray *patientData;
+    NSInteger index;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +28,32 @@
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    localData = [NSMutableArray arrayWithObjects:@"Aryaman Sharda", @"Andrei", @"Natalie", @"Dhruv", @"Karan", nil];
+    patientData = [[NSMutableArray alloc] init]; 
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Patients"];    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            
+            for (PFObject *object in objects) {
+                Patients *patient = [[Patients alloc] init];
+                patient.patientName = [object objectForKey:@"name"];
+                patient.phoneNumber = [object objectForKey:@"phoneNumber"];
+                patient.emailId = [object objectForKey:@"emailId"];
+                patient.gender = [object objectForKey:@"gender"];
+                patient.height = [[object objectForKey:@"metadata"] objectForKey:@"height"];
+                patient.weight = [[object objectForKey:@"metadata"] objectForKey:@"weight"];
+                patient.allergies = [object objectForKey:@"allergies"];
+                patient.examinations = [object objectForKey:@"examinations"];
+                [patientData addObject:patient];
+            }
+            
+            [self.tableView reloadData];
+            
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
     
     CGRect frame = CGRectMake(0, 0, 375, 64);
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
@@ -84,7 +112,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [localData count];
+    return [patientData count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -96,8 +124,10 @@
         cell = [[PatientTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    cell.patientName.text = [localData objectAtIndex:indexPath.row];
-    
+    Patients *patient = [patientData objectAtIndex:indexPath.row];
+    cell.patientName.text = patient.patientName;
+    cell.patientEmail.text = patient.emailId;
+    cell.patientPhone.text = patient.phoneNumber;
     cell.patientPhoto.image = [UIImage imageNamed:@"patient-place-holder"];
     cell.patientPhoto.layer.cornerRadius = cell.patientPhoto.frame.size.width / 2;
     cell.patientPhoto.clipsToBounds = YES;
@@ -106,11 +136,10 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"%ld", (long)indexPath.row);
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    index = indexPath.row;
+    [self performSegueWithIdentifier:@"patientDetailView" sender:self];
 }
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
@@ -119,4 +148,13 @@
     return NO;
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.identifier isEqualToString:@"patientDetailView"]){
+        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        PatientDetailViewController *controller = (PatientDetailViewController *)segue.destinationViewController;
+        controller.patient = patientData[index];
+        
+    }
+}
 @end

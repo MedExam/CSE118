@@ -10,6 +10,7 @@
 
 @interface PatientTableViewCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel *patientName;
-@property (nonatomic, weak) IBOutlet UILabel *patientUpdate;
+@property (nonatomic, weak) IBOutlet UILabel *patientPhone;
+@property (nonatomic, weak) IBOutlet UILabel *patientEmail;
 @property (nonatomic, weak) IBOutlet UIImageView *patientPhoto;
 @end

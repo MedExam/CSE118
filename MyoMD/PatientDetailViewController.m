@@ -17,6 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    patientName.text = _patient.patientName;
+    patientEmail.text = _patient.emailId;
+    patientNumber.text = _patient.phoneNumber;
+    patientGender.text = _patient.gender;
+    patientHeight.text = [NSString stringWithFormat:@"%@", _patient.height];
+    patientWeight.text = [NSString stringWithFormat:@"%@", _patient.weight];
+    
     patientPhoto.image = [UIImage imageNamed:@"patient-place-holder"];
     patientPhoto.layer.cornerRadius = patientPhoto.frame.size.width / 2;
     patientPhoto.clipsToBounds = YES;
@@ -69,14 +76,75 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Table view data source
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
 }
-*/
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    switch (section) {
+        case 0:
+            return [_patient.allergies count];
+            break;
+        case 1:
+            return [_patient.medications count];
+            break;
+        case 2:
+            return [_patient.examinations count];
+            break;
+    }
+    
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"CellIdentifier";
+    
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    /*
+    Patients *patient = [patientData objectAtIndex:indexPath.row];
+    cell.patientName.text = patient.patientName;
+    cell.patientEmail.text = patient.emailId;
+    cell.patientPhone.text = patient.phoneNumber;
+    cell.patientPhoto.image = [UIImage imageNamed:@"patient-place-holder"];
+    cell.patientPhoto.layer.cornerRadius = cell.patientPhoto.frame.size.width / 2;
+    cell.patientPhoto.clipsToBounds = YES; */
+    
+    cell.textLabel.text = @"hi";
+    
+    
+    return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0:
+            return @"Allergies";
+            break;
+        case 1:
+            return @"Medications";
+            break;
+        case 2:
+            return @"Examinations";
+            break;
+        default:
+            return @"Error";
+            break;
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
 @end
