@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import "Patients.h"
 
 @interface TeethDetailViewController : UIViewController <UITextFieldDelegate>
 {
@@ -50,5 +52,8 @@
     IBOutlet UITextField *tooth31;
     IBOutlet UITextField *tooth32;
 }
+
+@property Patients *patient;
+@property Examinations *exam;
 
 @end

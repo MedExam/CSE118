@@ -37,14 +37,37 @@
             
             for (PFObject *object in objects) {
                 Patients *patient = [[Patients alloc] init];
+                patient.patientID = object.objectId;
                 patient.patientName = [object objectForKey:@"name"];
                 patient.phoneNumber = [object objectForKey:@"phoneNumber"];
                 patient.emailId = [object objectForKey:@"emailId"];
                 patient.gender = [object objectForKey:@"gender"];
                 patient.height = [[object objectForKey:@"metadata"] objectForKey:@"height"];
                 patient.weight = [[object objectForKey:@"metadata"] objectForKey:@"weight"];
+                patient.medications = [object objectForKey:@"medications"];
                 patient.allergies = [object objectForKey:@"allergies"];
-                patient.examinations = [object objectForKey:@"examinations"];
+                
+                NSMutableArray *examinations = [[NSMutableArray alloc] init];
+                PFQuery *getExaminations = [PFQuery queryWithClassName:@"Examinations"];
+                [getExaminations whereKey:@"patientID" equalTo:object.objectId];
+                [getExaminations findObjectsInBackgroundWithBlock:^(NSArray *exams, NSError *examError) {
+                    if (!examError) {
+                        for (PFObject *ex in exams) {
+                            Examinations *exam = [[Examinations alloc] init];
+                            exam.examinationID = ex.objectId;
+                            exam.patientID = object.objectId;
+                            exam.date = [ex objectForKey:@"examinationDate"];
+                            exam.gumTestResults = [ex objectForKey:@"gumTestResults"];
+                            [examinations addObject:exam];
+                        }
+                    } else {
+                        NSLog(@"Error: %@ %@", examError, [examError userInfo]);
+                    }
+                }];
+                
+                patient.examinations = examinations;
+                    
+                
                 [patientData addObject:patient];
             }
             

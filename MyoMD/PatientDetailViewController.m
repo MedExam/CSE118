@@ -7,16 +7,20 @@
 //
 
 #import "PatientDetailViewController.h"
+#import "TeethDetailViewController.h"
+#import "Examinations.h"
 
 @interface PatientDetailViewController ()
 
 @end
 
 @implementation PatientDetailViewController
-
+{
+    Examinations *selected;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+ 
     patientName.text = _patient.patientName;
     patientEmail.text = _patient.emailId;
     patientNumber.text = _patient.phoneNumber;
@@ -27,6 +31,7 @@
     patientPhoto.image = [UIImage imageNamed:@"patient-place-holder"];
     patientPhoto.layer.cornerRadius = patientPhoto.frame.size.width / 2;
     patientPhoto.clipsToBounds = YES;
+    
     
     [self setNeedsStatusBarAppearanceUpdate];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:.08 green:.474 blue:.99215 alpha:1]];
@@ -99,6 +104,19 @@
     return 0;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case 2:
+        {
+            selected = [_patient.examinations objectAtIndex: indexPath.row];
+            [self performSegueWithIdentifier:@"gumTest" sender: self];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"CellIdentifier";
     
@@ -107,37 +125,68 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    /*
-    Patients *patient = [patientData objectAtIndex:indexPath.row];
-    cell.patientName.text = patient.patientName;
-    cell.patientEmail.text = patient.emailId;
-    cell.patientPhone.text = patient.phoneNumber;
-    cell.patientPhoto.image = [UIImage imageNamed:@"patient-place-holder"];
-    cell.patientPhoto.layer.cornerRadius = cell.patientPhoto.frame.size.width / 2;
-    cell.patientPhoto.clipsToBounds = YES; */
     
-    cell.textLabel.text = @"hi";
+    switch (indexPath.section) {
+        case 0:
+            cell.textLabel.text = [_patient.allergies objectAtIndex:indexPath.row];
+            break;
+        case 1:
+            cell.textLabel.text = [_patient.medications objectAtIndex:indexPath.row];
+            break;
+        case 2:
+        {
+            Examinations *exam = [_patient.examinations objectAtIndex:indexPath.row];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.text = exam.date;
+            break;
+        }
+        default:
+            break;
+    }
     
-    
+    cell.textLabel.text = [NSString stringWithFormat:@"   %@", cell.textLabel.text];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.font = [UIFont fontWithName:@"Montserrat" size:14];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 22;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     switch (section) {
         case 0:
-            return @"Allergies";
+            return @"ALLERGIES";
             break;
         case 1:
-            return @"Medications";
+            return @"MEDICATIONS";
             break;
         case 2:
-            return @"Examinations";
+            return @"EXAMINATIONS";
             break;
         default:
             return @"Error";
             break;
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UILabel *sectionTitle = [[UILabel alloc] init];
+    sectionTitle.frame = CGRectMake(20, 8, 375, 20);
+    sectionTitle.font = [UIFont fontWithName:@"Montserrat" size:14];
+    sectionTitle.textColor = [UIColor colorWithRed:.227 green:.639 blue:.996 alpha:1];
+    sectionTitle.backgroundColor = [UIColor clearColor];
+    sectionTitle.textAlignment = NSTextAlignmentLeft;
+    sectionTitle.text = [self tableView:tableView titleForHeaderInSection:section];
+    
+    UIView *headerView = [[UIView alloc] init];
+    [headerView addSubview:sectionTitle];
+    
+    return headerView;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -146,5 +195,16 @@
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.identifier isEqualToString:@"gumTest"]){
+        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        TeethDetailViewController *controller = (TeethDetailViewController *)segue.destinationViewController;
+        controller.patient = _patient;
+        controller.exam = selected;
+        
+    }
 }
 @end

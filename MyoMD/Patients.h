@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Examinations.h"
 
 @interface Patients : NSObject
+@property (nonatomic, retain) NSString *patientID;
 @property (nonatomic, retain) NSString *patientName;
 @property (nonatomic, retain) NSString *phoneNumber;
 @property (nonatomic, retain) NSString *gender;

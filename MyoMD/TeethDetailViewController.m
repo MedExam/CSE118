@@ -33,12 +33,8 @@
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background-social-image.png"]];
     
-
-    
-    
     [[TLMHub sharedHub] setLockingPolicy:TLMLockingPolicyNone];
     
-    //Subscribing to notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceivePoseChange:)
                                                  name:TLMMyoDidReceivePoseChangedNotification
@@ -83,6 +79,48 @@
     tooth30.delegate = self;
     tooth31.delegate = self;
     tooth32.delegate = self;
+    
+    if (_exam != NULL) {
+        tooth1.text = _exam.gumTestResults[0];
+        tooth2.text = _exam.gumTestResults[1];
+        tooth3.text = _exam.gumTestResults[2];
+        tooth4.text = _exam.gumTestResults[3];
+        
+        tooth5.text = _exam.gumTestResults[4];
+        tooth6.text = _exam.gumTestResults[5];
+        tooth7.text = _exam.gumTestResults[6];
+        tooth8.text = _exam.gumTestResults[7];
+        
+        tooth9.text = _exam.gumTestResults[8];
+        tooth10.text = _exam.gumTestResults[9];
+        tooth11.text = _exam.gumTestResults[10];
+        tooth12.text = _exam.gumTestResults[11];
+        
+        tooth13.text = _exam.gumTestResults[12];
+        tooth14.text = _exam.gumTestResults[13];
+        tooth15.text = _exam.gumTestResults[14];
+        tooth16.text = _exam.gumTestResults[15];
+        
+        tooth17.text = _exam.gumTestResults[16];
+        tooth18.text = _exam.gumTestResults[17];
+        tooth19.text = _exam.gumTestResults[18];
+        tooth20.text = _exam.gumTestResults[19];
+        
+        tooth21.text = _exam.gumTestResults[20];
+        tooth22.text = _exam.gumTestResults[21];
+        tooth23.text = _exam.gumTestResults[22];
+        tooth24.text = _exam.gumTestResults[23];
+        
+        tooth25.text = _exam.gumTestResults[24];
+        tooth26.text = _exam.gumTestResults[25];
+        tooth27.text = _exam.gumTestResults[26];
+        tooth28.text = _exam.gumTestResults[27];
+        
+        tooth29.text = _exam.gumTestResults[28];
+        tooth30.text = _exam.gumTestResults[29];
+        tooth31.text = _exam.gumTestResults[30];
+        tooth32.text = _exam.gumTestResults[31];
+    }
 }
 
 -(IBAction)syncMyo:(id)sender {
@@ -339,6 +377,35 @@
                         tooth31.text,
                         tooth32.text,
                         nil];
+    
+    NSDate *currentDate = [NSDate date];
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:currentDate]; // Get necessary date components
+
+    if (_exam != NULL) {
+        PFQuery *query = [PFQuery queryWithClassName:@"Examinations"];
+        [query getObjectInBackgroundWithId:_exam.examinationID
+                                     block:^(PFObject *object, NSError *error) {
+                                         object[@"gumTestResults"] = gumTest;
+                                         object[@"examinationDate"] = [NSString stringWithFormat:@"%ld//%ld//%ld", (long)[components month], (long)[components day], (long)[components year]];
+                                         [object saveInBackground];
+                                         [self dismissView:nil];
+                                     }];
+
+    } else {
+        PFObject *examination = [PFObject objectWithClassName:@"Examinations"];
+        examination[@"patientID"] = _patient.patientID;
+        examination[@"gumTestResults"] = gumTest;
+        examination[@"examinationDate"] = [NSString stringWithFormat:@"%ld//%ld//%ld", (long)[components month], (long)[components day], (long)[components year]];
+        [examination saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [self dismissView:nil];
+                NSLog(@"Examination saved");
+            } else {
+                // There was a problem, check error.description
+            }
+        }];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
