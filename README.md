@@ -1,2 +1,2 @@
-# CSE118
-CSE 118
+# MedEX App IOS
+![alt tag](https://github.com/MedExam/MedEx-iOS/blob/master/MedexApp-architecture.png)
