@@ -8,6 +8,8 @@
 
 #import "TeethDetailViewController.h"
 #import <MyoKit/MyoKit.h>
+#import <QuartzCore/QuartzCore.h> 
+
 @interface TeethDetailViewController ()
 
 @end
@@ -382,12 +384,20 @@
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:currentDate]; // Get necessary date components
 
+    UIGraphicsBeginImageContext(gumView.frame.size);
+    [gumView.layer renderInContext:UIGraphicsGetCurrentContext()];
+
+    NSData *imageData = UIImagePNGRepresentation(UIGraphicsGetImageFromCurrentImageContext());
+    PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
+    [imageFile save];
+    
     if (_exam != NULL) {
         PFQuery *query = [PFQuery queryWithClassName:@"Examinations"];
         [query getObjectInBackgroundWithId:_exam.examinationID
                                      block:^(PFObject *object, NSError *error) {
                                          object[@"gumTestResults"] = gumTest;
                                          object[@"examinationDate"] = [NSString stringWithFormat:@"%ld//%ld//%ld", (long)[components month], (long)[components day], (long)[components year]];
+                                         [object setObject:imageFile forKey:@"imageFile"];
                                          [object saveInBackground];
                                          [self dismissView:nil];
                                      }];
@@ -396,6 +406,7 @@
         PFObject *examination = [PFObject objectWithClassName:@"Examinations"];
         examination[@"patientID"] = _patient.patientID;
         examination[@"gumTestResults"] = gumTest;
+        [examination setObject:imageFile forKey:@"imageFile"];
         examination[@"examinationDate"] = [NSString stringWithFormat:@"%ld//%ld//%ld", (long)[components month], (long)[components day], (long)[components year]];
         [examination saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
@@ -407,6 +418,7 @@
         }];
     }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

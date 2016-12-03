@@ -51,6 +51,8 @@
     IBOutlet UITextField *tooth30;
     IBOutlet UITextField *tooth31;
     IBOutlet UITextField *tooth32;
+    
+    IBOutlet UIView *gumView; 
 }
 
 @property Patients *patient;
