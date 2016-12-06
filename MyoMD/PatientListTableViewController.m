@@ -10,6 +10,7 @@
 #import "PatientListTableViewController.h"
 #import "PatientTableViewCell.h"
 #import "Patients.h" 
+#import "SVProgressHUD.h"
 
 @interface PatientListTableViewController ()
 
@@ -159,8 +160,13 @@
     return cell;
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [SVProgressHUD dismiss];
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     index = indexPath.row;
+    [SVProgressHUD show];
     [self performSegueWithIdentifier:@"patientDetailView" sender:self];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -174,7 +180,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
     if([segue.identifier isEqualToString:@"patientDetailView"]){
-        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        NSLog(@"Hitting Row: %ld", (long)index);
         PatientDetailViewController *controller = (PatientDetailViewController *)segue.destinationViewController;
         controller.patient = patientData[index];
         

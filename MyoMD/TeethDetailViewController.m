@@ -9,6 +9,7 @@
 #import "TeethDetailViewController.h"
 #import <MyoKit/MyoKit.h>
 #import <QuartzCore/QuartzCore.h> 
+#import "SVProgressHUD.h"
 
 @interface TeethDetailViewController ()
 
@@ -41,6 +42,12 @@
                                              selector:@selector(didReceivePoseChange:)
                                                  name:TLMMyoDidReceivePoseChangedNotification
                                                object:nil];
+    
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]
+                                           initWithTarget:self
+                                           action:@selector(hideKeyBoard)];
+    
+    [self.view addGestureRecognizer:tapGesture];
     
     tooth1.delegate = self;
     tooth2.delegate = self;
@@ -123,6 +130,20 @@
         tooth31.text = _exam.gumTestResults[30];
         tooth32.text = _exam.gumTestResults[31];
     }
+}
+
+-(void)hideKeyBoard {
+    for (UIView *view in [gumView subviews]) {
+        if ([view isKindOfClass:[UITextField class]]) {
+            
+            UITextField *textField = (UITextField *)view;
+            if ([textField isFirstResponder]) {
+                [self textFieldShouldReturn:textField];
+                break;
+            }
+        }
+    }
+
 }
 
 -(IBAction)syncMyo:(id)sender {
@@ -284,7 +305,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(IBAction)showTutorial:(id)sender {
+    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Gum Test" message:@"Follow the instructions below\n1) Sync Myo 2) Wave Right to move teeth 3) Double Tap to increase gum value 3) Make a fist to save the examination" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 
+    [successAlert show];
+}
 
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
@@ -311,7 +336,7 @@
     
     if (pose.type == TLMPoseTypeDoubleTap) {
         NSLog(@"Double tap, registered.");
-        for (UIView *view in [self.view subviews]) {
+        for (UIView *view in [gumView subviews]) {
             if ([view isKindOfClass:[UITextField class]]) {
                 
                 UITextField *textField = (UITextField *)view;
@@ -331,7 +356,7 @@
     
     if (pose.type == TLMPoseTypeWaveOut) {
         NSLog(@"Swipe right, registered.");
-        for (UIView *view in [self.view subviews]) {
+        for (UIView *view in [gumView subviews]) {
             if ([view isKindOfClass:[UITextField class]]) {
                 
                 UITextField *textField = (UITextField *)view;
@@ -342,9 +367,14 @@
             }
         }
     }
+    
+    if(pose.type == TLMPoseTypeFist) {
+        [self saveGumTest:nil];
+    }
 }
 
 -(IBAction)saveGumTest:(id)sender {
+    [SVProgressHUD show];
     NSArray *gumTest = [[NSArray alloc] initWithObjects:
                         tooth1.text,
                         tooth2.text,
@@ -399,6 +429,7 @@
                                          object[@"examinationDate"] = [NSString stringWithFormat:@"%ld//%ld//%ld", (long)[components month], (long)[components day], (long)[components year]];
                                          [object setObject:imageFile forKey:@"imageFile"];
                                          [object saveInBackground];
+                                         [SVProgressHUD dismiss];
                                          [self dismissView:nil];
                                      }];
 
@@ -410,6 +441,7 @@
         examination[@"examinationDate"] = [NSString stringWithFormat:@"%ld//%ld//%ld", (long)[components month], (long)[components day], (long)[components year]];
         [examination saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
+                [SVProgressHUD dismiss];
                 [self dismissView:nil];
                 NSLog(@"Examination saved");
             } else {
