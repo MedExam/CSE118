@@ -28,7 +28,7 @@
     patientHeight.text = [NSString stringWithFormat:@"%@", _patient.height];
     patientWeight.text = [NSString stringWithFormat:@"%@", _patient.weight];
     
-    patientPhoto.image = [UIImage imageNamed:@"patient-place-holder"];
+    patientPhoto.image = [UIImage imageNamed:_patient.patientPhotoName];
     patientPhoto.layer.cornerRadius = patientPhoto.frame.size.width / 2;
     patientPhoto.clipsToBounds = YES;
     
@@ -152,8 +152,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    switch (indexPath.section) {
+        case 2:
+            return 40;
+            break;
+            
+        default:
+            break;
+    }
+    
     return 22;
 }
+
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {

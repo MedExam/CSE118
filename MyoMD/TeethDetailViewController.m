@@ -48,6 +48,7 @@
                                            action:@selector(hideKeyBoard)];
     
     [self.view addGestureRecognizer:tapGesture];
+    [gumView addGestureRecognizer:tapGesture];	
     
     tooth1.delegate = self;
     tooth2.delegate = self;
@@ -133,7 +134,7 @@
 }
 
 -(void)hideKeyBoard {
-    for (UIView *view in [gumView subviews]) {
+    /*for (UIView *view in [gumView subviews]) {
         if ([view isKindOfClass:[UITextField class]]) {
             
             UITextField *textField = (UITextField *)view;
@@ -142,8 +143,8 @@
                 break;
             }
         }
-    }
-
+    } */
+    [self.view endEditing:YES];
 }
 
 -(IBAction)syncMyo:(id)sender {
@@ -306,7 +307,7 @@
 }
 
 -(IBAction)showTutorial:(id)sender {
-    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Gum Test" message:@"Follow the instructions below\n1) Sync Myo 2) Wave Right to move teeth 3) Double Tap to increase gum value 3) Make a fist to save the examination" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Gum Test" message:@"Follow the instructions below\n1) Sync Myo \n2) Wave Right to move teeth \n 3) Double Tap to increase gum value 3) Make a fist to save the examination" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 
     [successAlert show];
 }
@@ -345,7 +346,12 @@
                     
                     if (textField.text && textField.text.length > 0) {
                         intValue = [textField.text intValue] + 1;
+                        
+                        if (intValue > 6) {
+                            intValue = 6;
+                        }
                     }
+                    
                     textField.text = [NSString stringWithFormat:@"%d", intValue];
                 }
             }

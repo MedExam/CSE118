@@ -20,4 +20,5 @@
 @property (nonatomic, retain) NSArray *allergies;
 @property (nonatomic, retain) NSArray *examinations;
 @property (nonatomic, retain) NSArray *medications;
+@property (nonatomic, retain) NSString *patientPhotoName;
 @end

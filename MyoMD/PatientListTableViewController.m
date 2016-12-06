@@ -34,8 +34,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Patients"];    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            
-            
+            int x = 1;
             for (PFObject *object in objects) {
                 Patients *patient = [[Patients alloc] init];
                 patient.patientID = object.objectId;
@@ -47,6 +46,7 @@
                 patient.weight = [[object objectForKey:@"metadata"] objectForKey:@"weight"];
                 patient.medications = [object objectForKey:@"medications"];
                 patient.allergies = [object objectForKey:@"allergies"];
+                patient.patientPhotoName = [NSString stringWithFormat:@"patient-place-holder%d.jpg", x++];
                 
                 NSMutableArray *examinations = [[NSMutableArray alloc] init];
                 PFQuery *getExaminations = [PFQuery queryWithClassName:@"Examinations"];
@@ -152,13 +152,15 @@
     cell.patientName.text = patient.patientName;
     cell.patientEmail.text = patient.emailId;
     cell.patientPhone.text = patient.phoneNumber;
-    cell.patientPhoto.image = [UIImage imageNamed:@"patient-place-holder"];
+    cell.patientPhoto.image = [UIImage imageNamed:patient.patientPhotoName];
     cell.patientPhoto.layer.cornerRadius = cell.patientPhoto.frame.size.width / 2;
     cell.patientPhoto.clipsToBounds = YES;
 
     
     return cell;
 }
+
+
 
 -(void)viewWillDisappear:(BOOL)animated {
     [SVProgressHUD dismiss];
@@ -184,6 +186,10 @@
         PatientDetailViewController *controller = (PatientDetailViewController *)segue.destinationViewController;
         controller.patient = patientData[index];
         
+    }
+    
+    if ([segue.identifier isEqualToString:@"logOut"]) {
+        [PFUser logOut];
     }
 }
 @end
